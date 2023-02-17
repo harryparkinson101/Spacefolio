@@ -1,0 +1,462 @@
+import * as THREE from 'three';
+import * as TWEEN from 'tween.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import video1 from './assets/videos/video1.mp4';
+import video2 from './assets/videos/video2.mp4';
+import video3 from './assets/videos/video3.mp4';
+import video4 from './assets/videos/video4.mp4';
+import video5 from './assets/videos/video4.mp4';
+import starsTexture from './assets/stars.jpg';
+import sunTexture from './assets/sun.jpg';
+import mercuryTexture from './assets/mercury.jpg';
+import venusTexture from './assets/venus.jpg';
+import earthTexture from './assets/earth.jpg';
+import marsTexture from './assets/mars.jpg';
+import jupiterTexture from './assets/jupiter.jpg';
+import saturnTexture from './assets/saturn.jpg';
+import saturnRingTexture from './assets/saturnRing.png';
+import uranusTexture from './assets/uranus.jpg';
+import uranusRingTexture from './assets/uranusRing.png';
+import neptuneTexture from './assets/neptune.jpg';
+import plutoTexture from './assets/pluto.jpg';
+
+/* Create the scene and camera */
+const renderer = new THREE.WebGLRenderer();
+
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+
+const camera = new THREE.PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  100000
+);
+
+
+const orbit = new OrbitControls(camera, renderer.domElement);
+
+
+
+//  Sets the Background
+const cubeTextureLoader = new THREE.CubeTextureLoader();
+scene.background = cubeTextureLoader.load([
+  starsTexture,
+  starsTexture,
+  starsTexture,
+  starsTexture,
+  starsTexture,
+  starsTexture
+]);
+
+// Sets the lighting
+
+const ambientLight = new THREE.AmbientLight(0x333333);
+scene.add(ambientLight);
+
+const pointLight = new THREE.PointLight(0xFFFFFF, 2, 100000);
+scene.add(pointLight);
+
+/* Planet sizes */
+const earthSize = 128
+const sunSize = 8 * 80
+const mercurySize = earthSize * 0.38
+const venusSize = earthSize * 0.95
+const marsSize = earthSize * 0.53
+const jupiterSize = earthSize * 11.20
+const saturnSize = earthSize * 9.45
+const uranusSize = earthSize * 4.00
+const neptuneSize = earthSize * 3.88
+const plutoSize = earthSize * 0.095
+
+/* Planet distance from sun in km */
+const scale = 100000
+const sunDistance = 0
+const mercuryDistance = 88000000 / scale
+const venusDistance = 108200000 / scale
+const earthDistance = 149600000 / scale
+const marsDistance = 227900000 / scale
+const jupiterDistance = 778300000 / scale
+const saturnDistance = 1427000000 / scale
+const uranusDistance = 2871000000 / scale
+const neptuneDistance = 4497100000 / scale
+const plutoDistance = 3674500000 / scale
+
+
+const textureLoader = new THREE.TextureLoader();
+/* Create Sun */
+const sunGeo = new THREE.SphereGeometry(sunSize, 30, 30);
+const sunMat = new THREE.MeshBasicMaterial({
+  map: textureLoader.load(sunTexture)
+});
+const sun = new THREE.Mesh(sunGeo, sunMat);
+scene.add(sun);
+
+/* Create Planets */
+
+const createPlanet = (size, texture, position, ring) => {
+  const geo = new THREE.SphereGeometry(size, 30, 30);
+  const mat = new THREE.MeshStandardMaterial({
+    map: textureLoader.load(texture)
+  });
+  const mesh = new THREE.Mesh(geo, mat);
+  const obj = new THREE.Object3D();
+  obj.add(mesh);
+
+  if (ring) {
+    const ringGeo = new THREE.RingGeometry(
+      ring.innerRadius,
+      ring.outerRadius,
+      32
+    );
+    const ringMat = new THREE.MeshBasicMaterial({
+      map: textureLoader.load(ring.texture),
+      side: THREE.DoubleSide
+    });
+    const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+    obj.add(ringMesh);
+    ringMesh.position.x = position;
+    ringMesh.rotation.x = -0.5 * Math.PI;
+  }
+  scene.add(obj);
+  mesh.position.x = position;
+  return {mesh, obj} 
+};
+
+// Mercury
+const mercury = createPlanet(mercurySize, mercuryTexture, mercuryDistance);
+mercury.obj.rotateY(0.47);
+
+// Venus
+const venus = createPlanet(venusSize, venusTexture, venusDistance);
+venus.obj.rotateY(0.87);
+
+// Earth
+const earth = createPlanet(earthSize, earthTexture, earthDistance);
+earth.obj.rotateY(1.29);
+
+// Mars
+const mars = createPlanet(marsSize, marsTexture, marsDistance);
+mars.obj.rotateY(1.98);
+
+// Jupiter
+const jupiter = createPlanet(jupiterSize, jupiterTexture, jupiterDistance);
+jupiter.obj.rotateY(2.84);
+
+// Saturn
+const saturn = createPlanet(saturnSize, saturnTexture, saturnDistance, {
+  innerRadius: 10,
+  outerRadius: 20,
+  texture: saturnRingTexture
+});
+saturn.obj.rotateY(1.84);
+
+// Uranus 
+const uranus = createPlanet(uranusSize, uranusTexture, uranusDistance, {
+  innerRadius: 7,
+  outerRadius: 12,
+  texture: uranusRingTexture
+});
+uranus.obj.rotateY(2.44);
+
+// Neptune
+const neptune = createPlanet(neptuneSize, neptuneTexture, neptuneDistance);
+neptune.obj.rotateY(0.77);
+
+// Pluto
+const pluto = createPlanet(plutoSize, plutoTexture, plutoDistance);
+pluto.obj.rotateY(1.12);
+
+
+orbit.update();
+
+
+
+// Project 1 Imagine-AI
+
+const videoContent = document.getElementById("video"); //link video HTML to js
+
+let video1Texture = new THREE.VideoTexture(videoContent); // Create Texture
+// Post Process Texture
+video1Texture.minFilter = THREE.LinearFilter;
+video1Texture.magFilter = THREE.LinearFilter;
+
+const video1Material = new THREE.MeshBasicMaterial({
+  map: video1Texture, // sets material.map(project1Texture)
+  side: THREE.FrontSide, // displays video on front side
+  toneMapped: false,
+});
+
+/* Create Video Cube Object 1 */
+const video1Geometry = new THREE.BoxGeometry(1000, 1000, 1000);//HxWxL
+const video1Screen = new THREE.Mesh(video1Geometry, video1Material);
+video1Screen.position.set(2000, 1500, 2000); // x,y,z of position of cube
+scene.add(video1Screen);
+
+
+
+// Project 2 StreamSpot
+
+const video2Content = document.getElementById("video2"); //link video HTML to js
+
+let video2Texture = new THREE.VideoTexture(video2Content); // Create Texture
+// Post Process Texture
+video2Texture.minFilter = THREE.LinearFilter;
+video2Texture.magFilter = THREE.LinearFilter;
+
+const video2Material = new THREE.MeshBasicMaterial({
+  map: video2Texture, // sets material.map(project1Texture)
+  side: THREE.FrontSide, // displays video on front side
+  toneMapped: false, 
+});
+
+/* Create Video Cube Object 2 */
+const video2Geometry = new THREE.BoxGeometry(1000, 1000, 1000);//HxWxL
+const video2Screen = new THREE.Mesh(video2Geometry, video2Material);
+video2Screen.position.set(-2000, -1500, -2000); // x,y,z of position of cube
+scene.add(video2Screen);
+
+// Project 3 Datawave
+
+const video3Content = document.getElementById("video3"); //link video HTML to js
+
+let video3Texture = new THREE.VideoTexture(video3Content); // Create Texture
+// Post Process Texture
+video3Texture.minFilter = THREE.LinearFilter;
+video3Texture.magFilter = THREE.LinearFilter;
+
+const video3Material = new THREE.MeshBasicMaterial({
+  map: video3Texture, // sets material.map(project1Texture)
+  side: THREE.FrontSide, // displays video on front side
+  toneMapped: false, 
+});
+
+/* Create Video Cube Object 2 */
+const video3Geometry = new THREE.BoxGeometry(1000, 1000, 1000);//HxWxL
+const video3Screen = new THREE.Mesh(video3Geometry, video3Material);
+video3Screen.position.set(-2000, -1500, -2000); // x,y,z of position of cube
+scene.add(video3Screen);
+
+// Project 4
+
+const video4Content = document.getElementById("video4"); //link video HTML to js
+
+let video4Texture = new THREE.VideoTexture(video4Content); // Create Texture
+// Post Process Texture
+video4Texture.minFilter = THREE.LinearFilter;
+video4Texture.magFilter = THREE.LinearFilter;
+
+const video4Material = new THREE.MeshBasicMaterial({
+  map: video4Texture, // sets material.map(project1Texture)
+  side: THREE.FrontSide, // displays video on front side
+  toneMapped: false, 
+});
+
+/* Create Video Cube Object */ 
+
+const video4Geometry = new THREE.BoxGeometry(1000, 1000, 1000);//HxWxL
+
+const video4Screen = new THREE.Mesh(video4Geometry, video4Material);
+
+video4Screen.position.set(-2200, 5000, 4000); // x,y,z of position of cube
+scene.add(video4Screen);
+
+// Project 5 Gericht
+
+const video5Content = document.getElementById("video5"); //link video HTML to js
+
+let video5Texture = new THREE.VideoTexture(video5Content); // Create Texture
+// Post Process Texture
+video5Texture.minFilter = THREE.LinearFilter;
+video5Texture.magFilter = THREE.LinearFilter;
+
+
+const video5Material = new THREE.MeshBasicMaterial({
+  map: video5Texture, // sets material.map(project5Texture)
+  side: THREE.FrontSide, // displays video on front side
+  toneMapped: false, 
+});
+
+/* Create Video Cube Object */ 
+
+const video5Geometry = new THREE.BoxGeometry(600, 600, 600);//HxWxL
+
+const video5Screen = new THREE.Mesh(video5Geometry, video5Material);
+
+video5Screen.position.set(-3000, 5000, 8000); // x,y,z of position of cube
+scene.add(video5Screen);
+
+function animateCamera() {
+  const tweenTime = 20000; // in milliseconds
+  const cameraTarget = new THREE.Vector3();
+  const cameraStartTarget = cameraTarget.clone();
+  
+  // array of cube positions
+  const cubePositions = [    video1Screen.position.clone(),    video2Screen.position.clone(),    video3Screen.position.clone(),    video4Screen.position.clone(),    video5Screen.position.clone()  ];
+
+  // animate camera to first cube
+  const cameraStartPosition = camera.position.clone();
+  const cameraEndTarget = cameraTarget.copy(cubePositions[0]);
+  const tweenCameraPosition = new TWEEN.Tween(cameraStartPosition)
+    .to(cameraEndTarget, tweenTime)
+    .onUpdate(() => {
+      camera.position.copy(cameraStartPosition);
+    });
+
+  const tweenCameraTarget = new TWEEN.Tween(cameraStartTarget)
+    .to(cameraEndTarget, tweenTime)
+    .onUpdate(() => {
+      camera.lookAt(cameraStartTarget);
+    });
+
+  tweenCameraPosition.chain(tweenCameraTarget);
+
+  // animate camera to remaining cubes
+  for (let i = 1; i < cubePositions.length; i++) {
+    const cameraStartPos = camera.position.clone();
+    const cameraEndTarget = cameraTarget.copy(cubePositions[i]);
+
+    const tweenCameraPosition = new TWEEN.Tween(cameraStartPos)
+      .to(cameraEndTarget, tweenTime)
+      .onUpdate(() => {
+        camera.position.copy(cameraStartPos);
+      });
+
+    const tweenCameraTarget = new TWEEN.Tween(cameraStartTarget)
+      .to(cameraEndTarget, tweenTime)
+      .onUpdate(() => {
+        camera.lookAt(cameraStartTarget);
+      });
+
+    tweenCameraPosition.chain(tweenCameraTarget);
+  }
+
+  // start the first tween
+  tweenCameraPosition.start();
+}
+
+animateCamera();
+animateCamera();
+animateCamera();
+animateCamera();
+
+/* Creating the GrannyKnot  */
+class GrannyKnot extends THREE.Object3D {
+  constructor() {
+    super();
+
+    // Create the knot geometry
+    const knotGeometry = new THREE.TorusKnotGeometry(10, 3, 100, 16, 2, 3);
+
+    // Create the knot material
+    const knotMaterial = new THREE.MeshPhongMaterial({
+      color: 0xffffff,
+      wireframe: true,
+    });
+
+    // Create the knot mesh
+    this.mesh = new THREE.Mesh(knotGeometry, knotMaterial);
+    this.mesh.scale.set(350, 450, 500); // Multiply the scale x,y,z
+
+    // Add the knot mesh to the GrannyKnot object
+    this.add(this.mesh);
+  }
+}
+
+
+const grannyKnot = new GrannyKnot();
+scene.add(grannyKnot);
+
+
+
+
+
+/* Animate the scene */
+const animate = () => {
+  requestAnimationFrame(animate);
+
+  // Update the videos texture as a series of images
+  video1Texture.needsUpdate = true;
+  video2Texture.needsUpdate = true;
+  video3Texture.needsUpdate = true;
+  video4Texture.needsUpdate = true;
+  video5Texture.needsUpdate = true;
+  // Call TWEEN.update() to progress the animation
+  TWEEN.update();
+  // Self rotation
+  sun.rotateY(0.004);
+  mercury.mesh.rotateY(0.004);
+  venus.mesh.rotateY(0.002);
+  earth.mesh.rotateY(0.02);
+  mars.mesh.rotateY(0.018);
+  jupiter.mesh.rotateY(0.04);
+  saturn.mesh.rotateY(0.038);
+  uranus.mesh.rotateY(0.03);
+  neptune.mesh.rotateY(0.032);
+  pluto.mesh.rotateY(0.008);
+  //grannyKnot.mesh.rotateY(0.01);
+  //grannyKnot.mesh.rotateX(0.01)
+  // Around sun rotation
+  mercury.obj.rotateY(0.04);
+  venus.obj.rotateY(0.015);
+  earth.obj.rotateY(0.01);
+  mars.obj.rotateY(0.008);
+  jupiter.obj.rotateY(0.002);
+  saturn.obj.rotateY(0.0009);
+  uranus.obj.rotateY(0.0004);
+  neptune.obj.rotateY(0.0001);
+  pluto.obj.rotateY(0.00007);
+  renderer.render(scene, camera);
+}
+
+renderer.setAnimationLoop(animate);
+
+/* Resize window */
+window.addEventListener('resize', function() {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  renderer.setSize(width, height);
+  camera.aspect = width / height;
+  camera.updateProjectionMatrix();
+});
+
+document.onkeydown = function (e) {
+  if (e.keyCode === 80) {
+    // p key = play video
+    videoContent.play();
+    video2Content.play();
+    video3Content.play();
+    video4Content.play();
+    video5Content.play();
+    //...
+  } else if (e.keyCode === 32) {
+    // space-bar = pause video
+    videoContent.pause();
+    video2Content.pause();
+    video3Content.pause();
+    video4Content.pause();
+    video5Content.pause();
+  } else if (e.keyCode === 83) {
+    // s key = stop video
+    videoContent.pause();
+    videoContent.currentTime = 0;
+    video2Content.pause();
+    video2Content.currentTime = 0;
+    video3Content.pause();
+    video3Content.currentTime = 0;
+    video4Content.pause();
+    video4Content.currentTime = 0;
+    video5Content.pause();
+    video5Content.currentTime = 0;
+
+  } else if (e.keyCode === 82) {
+    // r key = rewind video
+    videoContent.currentTime = 0;
+    video2Content.currentTime = 0;
+    video3Content.currentTime = 0;
+    video4Content.currentTime = 0;
+    video5Content.currentTime = 0;
+  }
+};
