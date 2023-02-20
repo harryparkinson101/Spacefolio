@@ -195,7 +195,28 @@ const video1Screen = new THREE.Mesh(video1Geometry, video1Material);
 video1Screen.position.set(2000, 1500, 2000); // x,y,z of position of cube
 scene.add(video1Screen);
 
+const buttonGeometry = new THREE.PlaneGeometry(0.5, 0.5);
+const buttonMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide });
+const button = new THREE.Mesh(buttonGeometry, buttonMaterial);
 
+button.position.set(0, 0.5, 0.5);
+video1Screen.add(button);
+renderer.domElement.addEventListener('click', onClick);
+
+function onClick(event) {
+  const mouse = new THREE.Vector2();
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  const raycaster = new THREE.Raycaster();
+  raycaster.setFromCamera(mouse, camera);
+
+  const intersects = raycaster.intersectObjects(cube.children);
+
+  if (intersects.length > 0) {
+    console.log('Button clicked!');
+  }
+}
 
 // Project 2 StreamSpot
 
