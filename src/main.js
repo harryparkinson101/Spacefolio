@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls';
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
+import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import video1 from './assets/videos/video1.mp4';
 import video2 from './assets/videos/video2.mp4';
 import video3 from './assets/videos/video3.mp4';
@@ -37,10 +38,7 @@ const camera = new THREE.PerspectiveCamera(
   10000
 );
 
-
 const orbit = new OrbitControls(camera, renderer.domElement);
-
-
 
 //  Sets the Background
 const cubeTextureLoader = new THREE.CubeTextureLoader();
@@ -60,6 +58,23 @@ scene.add(ambientLight);
 
 const pointLight = new THREE.PointLight(0xFFFFFF, 2, 10000);
 scene.add(pointLight);
+
+const loader = new FontLoader();
+
+loader.load('https://cdn.jsdelivr.net/npm/three/examples/fonts/helvetiker_regular.typeface.json', function (font) {
+
+  const geometry = new TextGeometry('Hello three.js!', {
+    font: font,
+    size: 80,
+    height: 5,
+    curveSegments: 12,
+    bevelEnabled: true,
+    bevelThickness: 10,
+    bevelSize: 8,
+    bevelOffset: 0,
+    bevelSegments: 5
+  });
+});
 
 /* Planet sizes */
 const earthSize = 6
@@ -124,7 +139,7 @@ const createPlanet = (size, texture, position, ring) => {
   }
   scene.add(obj);
   mesh.position.x = position;
-  return {mesh, obj} 
+  return { mesh, obj }
 };
 
 // Mercury
@@ -170,10 +185,6 @@ neptune.obj.rotateY(0.77);
 // Pluto
 const pluto = createPlanet(plutoSize, plutoTexture, plutoDistance);
 pluto.obj.rotateY(1.12);
-
-
-orbit.update();
-
 
 
 // Project 1 Imagine-AI
@@ -246,10 +257,10 @@ class GrannyKnot extends THREE.Object3D {
   }
 }
 
-
 const grannyKnot = new GrannyKnot();
 scene.add(grannyKnot);
 
+// Editing orbit controls 
 
 orbit.enabled = false; // disable the orbit controls by default
 let timeoutId = null; // to keep track of the timeout id
@@ -262,6 +273,7 @@ function enableOrbitControls() {
 // add event listener to the button to enable orbit controls when clicked
 const exploreButton = document.getElementById('exploreButton');
 exploreButton.addEventListener('click', enableOrbitControls);
+
 const textures = [video1Texture, video2Texture, video3Texture, video4Texture, video5Texture];
 
 function createCube(scene, position, map) {
@@ -274,10 +286,8 @@ function createCube(scene, position, map) {
   currentTextureIndex = (currentTextureIndex + 1) % textures.length; // Increment the index and wrap around when it reaches the end of the array
 }
 
-
 // Initialize the current texture index to 0
 let currentTextureIndex = 0;
-
 
 for (let i = 0; i < 5; i++) {
   createCube(scene, new THREE.Vector3(i * 2 - 4, 0, 0), textures[i]);
@@ -304,12 +314,12 @@ function switchCameraPosition() {
       moveCamera(-1.63, -0.1485, 2.829);
       rotateCamera(0, 0.1, 0);
       position = 3;
-      break; 
+      break;
     case 3:
       moveCamera(0.04, -0.146, 1.948);
       rotateCamera(0, 0.1, 0);
       position = 4;
-      break; 
+      break;
     case 4:
       moveCamera(2.307, -0.245, 2.629);
       rotateCamera(0, 0.1, 0);
@@ -319,20 +329,21 @@ function switchCameraPosition() {
       moveCamera(4.031, -0.161, 1.891);
       rotateCamera(0, 0.1, 0);
       position = 0;
-      break; 
+      break;
     default:
       position = 0;
       rotateCamera(0, 0, 0);
       break;
   }
-  
-  // set a timer to call this function again after 5 seconds
+
+  //set a timer to call this function again after 5 seconds
   timeoutId = setTimeout(switchCameraPosition, 5000);
 }
 
 // start the first camera switch after 5 seconds
 timeoutId = setTimeout(switchCameraPosition, 5000);
 
+orbit.update();
 
 const moveCamera = (x, y, z) => {
   gsap.to(camera.position, {
@@ -357,7 +368,7 @@ const clock = new THREE.Clock();
 /* Animate the scene */
 const animate = () => {
   requestAnimationFrame(animate);
-  
+
   // Update the videos texture as a series of images
   video1Texture.needsUpdate = true;
   video2Texture.needsUpdate = true;
@@ -390,13 +401,14 @@ const animate = () => {
   //uranus.obj.rotateY(0.0004);
   //neptune.obj.rotateY(0.0001);
   //pluto.obj.rotateY(0.00007);
+  //orbit.update();
   renderer.render(scene, camera);
 }
 
 renderer.setAnimationLoop(animate);
 
 /* Resize window */
-window.addEventListener('resize', function() {
+window.addEventListener('resize', function () {
   const width = window.innerWidth;
   const height = window.innerHeight;
   renderer.setSize(width, height);

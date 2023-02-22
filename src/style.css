@@ -14,12 +14,12 @@ body {
 	font-family:Impact;
 	font-size:17px;
 	font-style:italic;
-	padding:16px 31px;
+	padding:12px 26px;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #854629;
   position: absolute;
-  top: 20px; /* adjust the top position as needed */
-  right: 20px; /* adjust the right position as needed */
+  top: 80px; /* adjust the top position as needed */
+  right: 30px; /* adjust the right position as needed */
 }
 #exploreButton:hover {
 	background:linear-gradient(to bottom, #bc3315 5%, #d0451b 100%);
@@ -30,3 +30,70 @@ body {
 	top:1px;
 }
 
+#githubButton {
+	top: 20px;
+	left: 20px;
+	position: absolute;
+	border: none;
+}
+
+h1 {
+  text-align: center; /* center the text horizontally */
+  position: absolute;
+  top: 50%; /* position the text vertically in the middle */
+  transform: translate(0, -50%); /* move the text up by half of its own height */
+	color: #ffffff;
+	font-size: 38px;
+	left: 440px;
+	top: 90px;
+}
+
+nav {
+  background-color: black;
+  height: 50px;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+}
+
+nav li {
+  margin-right: 20px;
+}
+
+nav li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+nav li a:hover {
+  background-color: #333;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  background-color: black;
+}
+
+.dropdown-content a {
+  color: white;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
