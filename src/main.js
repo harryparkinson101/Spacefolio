@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import * as TWEEN from 'tween.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls';
 import video1 from './assets/videos/video1.mp4';
@@ -35,7 +34,7 @@ const camera = new THREE.PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
   0.1,
-  100000
+  10000
 );
 
 
@@ -59,11 +58,11 @@ scene.background = cubeTextureLoader.load([
 const ambientLight = new THREE.AmbientLight(0x333333);
 scene.add(ambientLight);
 
-const pointLight = new THREE.PointLight(0xFFFFFF, 2, 100000);
+const pointLight = new THREE.PointLight(0xFFFFFF, 2, 10000);
 scene.add(pointLight);
 
 /* Planet sizes */
-const earthSize = 60
+const earthSize = 6
 const sunSize = 8 * 80
 const mercurySize = earthSize * 0.38
 const venusSize = earthSize * 0.95
@@ -186,21 +185,6 @@ let video1Texture = new THREE.VideoTexture(videoContent); // Create Texture
 video1Texture.minFilter = THREE.LinearFilter;
 video1Texture.magFilter = THREE.LinearFilter;
 
-/*
-//const video1Material = new THREE.MeshBasicMaterial({
-  //map: video1Texture, // sets material.map(project1Texture)
-  //side: THREE.FrontSide, // displays video on front side
-  //toneMapped: false,
-//});
-*/
-/* Create Video Cube Object 1 */
-/*
-const video1Geometry = new THREE.BoxGeometry(1000, 1000, 1000);//HxWxL
-const video1Screen = new THREE.Mesh(video1Geometry, video1Material);
-video1Screen.position.set(2000, 1500, 2000); // x,y,z of position of cube
-scene.add(video1Screen);
-
-*/
 
 // Projec 2 StreamSpot
 
@@ -210,20 +194,7 @@ let video2Texture = new THREE.VideoTexture(video2Content); // Create Texture
 // Post Process Texture
 video2Texture.minFilter = THREE.LinearFilter;
 video2Texture.magFilter = THREE.LinearFilter;
-/*
-const video2Material = new THREE.MeshBasicMaterial({
-  map: video2Texture, // sets material.map(project1Texture)
-  side: THREE.FrontSide, // displays video on front side
-  toneMapped: false, 
-});
-*/
-/* Create Video Cube Object 2 */
-/*
-const video2Geometry = new THREE.BoxGeometry(1000, 1000, 1000);//HxWxL
-const video2Screen = new THREE.Mesh(video2Geometry, video2Material);
-video2Screen.position.set(-2000, -1500, -2000); // x,y,z of position of cube
-scene.add(video2Screen);
-*/
+
 // Project 3 Datawave
 
 const video3Content = document.getElementById("video3"); //link video HTML to js
@@ -233,18 +204,6 @@ let video3Texture = new THREE.VideoTexture(video3Content); // Create Texture
 video3Texture.minFilter = THREE.LinearFilter;
 video3Texture.magFilter = THREE.LinearFilter;
 
-//const video3Material = new THREE.MeshBasicMaterial({
-  //map: video3Texture, // sets material.map(project1Texture)
-  //side: THREE.FrontSide, // displays video on front side
-  //toneMapped: false, 
-//});
-
-/* Create Video Cube Object 2 */
-//const video3Geometry = new THREE.BoxGeometry(1000, 1000, 1000);//HxWxL
-//const video3Screen = new THREE.Mesh(video3Geometry, video3Material);
-//video3Screen.position.set(-2000, -1500, -2000); // x,y,z of position of cube
-//scene.add(video3Screen);
-
 // Project 4
 
 const video4Content = document.getElementById("video4"); //link video HTML to js
@@ -253,22 +212,7 @@ let video4Texture = new THREE.VideoTexture(video4Content); // Create Texture
 // Post Process Texture
 video4Texture.minFilter = THREE.LinearFilter;
 video4Texture.magFilter = THREE.LinearFilter;
-/*
-const video4Material = new THREE.MeshBasicMaterial({
-  map: video4Texture, // sets material.map(project1Texture)
-  side: THREE.FrontSide, // displays video on front side
-  toneMapped: false, 
-});
-*/
-/* Create Video Cube Object */ 
-/*
-const video4Geometry = new THREE.BoxGeometry(1000, 1000, 1000);//HxWxL
 
-const video4Screen = new THREE.Mesh(video4Geometry, video4Material);
-
-video4Screen.position.set(-2200, 5000, 4000); // x,y,z of position of cube
-scene.add(video4Screen);
-*/
 // Project 5 Gericht
 
 const video5Content = document.getElementById("video5"); //link video HTML to js
@@ -278,25 +222,8 @@ let video5Texture = new THREE.VideoTexture(video5Content); // Create Texture
 video5Texture.minFilter = THREE.LinearFilter;
 video5Texture.magFilter = THREE.LinearFilter;
 
-/*
-const video5Material = new THREE.MeshBasicMaterial({
-  map: video5Texture, // sets material.map(project5Texture)
-  side: THREE.FrontSide, // displays video on front side
-  toneMapped: false, 
-});
-
-// Create Video Cube Object  
-
-const video5Geometry = new THREE.BoxGeometry(600, 600, 600);//HxWxL
-
-const video5Screen = new THREE.Mesh(video5Geometry, video5Material);
-
-video5Screen.position.set(-3000, 5000, 8000); // x,y,z of position of cube
-scene.add(video5Screen);
-
-*/
 /* Creating the GrannyKnot  */
-/*
+
 class GrannyKnot extends THREE.Object3D {
   constructor() {
     super();
@@ -322,10 +249,6 @@ class GrannyKnot extends THREE.Object3D {
 
 const grannyKnot = new GrannyKnot();
 scene.add(grannyKnot);
-
-*/
-
-
 
 
 orbit.enabled = false; // disable the orbit controls by default
@@ -443,28 +366,30 @@ const animate = () => {
   video5Texture.needsUpdate = true;
 
   // Self rotation
-  sun.rotateY(0.004);
-  mercury.mesh.rotateY(0.004);
-  venus.mesh.rotateY(0.002);
-  earth.mesh.rotateY(0.02);
-  mars.mesh.rotateY(0.018);
-  jupiter.mesh.rotateY(0.04);
-  saturn.mesh.rotateY(0.038);
-  uranus.mesh.rotateY(0.03);
-  neptune.mesh.rotateY(0.032);
-  pluto.mesh.rotateY(0.008);
+
+  //sun.rotateY(0.004);
+  //mercury.mesh.rotateY(0.004);
+  //venus.mesh.rotateY(0.002);
+  //earth.mesh.rotateY(0.02);
+  //mars.mesh.rotateY(0.018);
+  //jupiter.mesh.rotateY(0.04);
+  //saturn.mesh.rotateY(0.038);
+  //uranus.mesh.rotateY(0.03);
+  //neptune.mesh.rotateY(0.032);
+  //pluto.mesh.rotateY(0.008);
   //grannyKnot.mesh.rotateY(0.01);
   //grannyKnot.mesh.rotateX(0.01)
   // Around sun rotation
-  mercury.obj.rotateY(0.04);
-  venus.obj.rotateY(0.015);
-  earth.obj.rotateY(0.01);
-  mars.obj.rotateY(0.008);
-  jupiter.obj.rotateY(0.002);
-  saturn.obj.rotateY(0.0009);
-  uranus.obj.rotateY(0.0004);
-  neptune.obj.rotateY(0.0001);
-  pluto.obj.rotateY(0.00007);
+
+  //mercury.obj.rotateY(0.04);
+  //venus.obj.rotateY(0.015);
+  //earth.obj.rotateY(0.01);
+  //mars.obj.rotateY(0.008);
+  //jupiter.obj.rotateY(0.002);
+  //saturn.obj.rotateY(0.0009);
+  //uranus.obj.rotateY(0.0004);
+  //neptune.obj.rotateY(0.0001);
+  //pluto.obj.rotateY(0.00007);
   renderer.render(scene, camera);
 }
 
@@ -478,7 +403,7 @@ window.addEventListener('resize', function() {
   camera.aspect = width / height;
   camera.updateProjectionMatrix();
 });
-/*
+
 document.onkeydown = function (e) {
   if (e.keyCode === 80) {
     // p key = play video
@@ -517,4 +442,3 @@ document.onkeydown = function (e) {
     video5Content.currentTime = 0;
   }
 };
-*/
