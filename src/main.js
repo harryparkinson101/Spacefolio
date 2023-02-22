@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import * as TWEEN from 'tween.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls';
 import video1 from './assets/videos/video1.mp4';
 import video2 from './assets/videos/video2.mp4';
 import video3 from './assets/videos/video3.mp4';
@@ -19,6 +20,8 @@ import uranusTexture from './assets/uranus.jpg';
 import uranusRingTexture from './assets/uranusRing.png';
 import neptuneTexture from './assets/neptune.jpg';
 import plutoTexture from './assets/pluto.jpg';
+import gsap from 'gsap';
+
 
 /* Create the scene and camera */
 const renderer = new THREE.WebGLRenderer();
@@ -60,7 +63,7 @@ const pointLight = new THREE.PointLight(0xFFFFFF, 2, 100000);
 scene.add(pointLight);
 
 /* Planet sizes */
-const earthSize = 128
+const earthSize = 60
 const sunSize = 8 * 80
 const mercurySize = earthSize * 0.38
 const venusSize = earthSize * 0.95
@@ -183,42 +186,23 @@ let video1Texture = new THREE.VideoTexture(videoContent); // Create Texture
 video1Texture.minFilter = THREE.LinearFilter;
 video1Texture.magFilter = THREE.LinearFilter;
 
-const video1Material = new THREE.MeshBasicMaterial({
-  map: video1Texture, // sets material.map(project1Texture)
-  side: THREE.FrontSide, // displays video on front side
-  toneMapped: false,
-});
-
+/*
+//const video1Material = new THREE.MeshBasicMaterial({
+  //map: video1Texture, // sets material.map(project1Texture)
+  //side: THREE.FrontSide, // displays video on front side
+  //toneMapped: false,
+//});
+*/
 /* Create Video Cube Object 1 */
+/*
 const video1Geometry = new THREE.BoxGeometry(1000, 1000, 1000);//HxWxL
 const video1Screen = new THREE.Mesh(video1Geometry, video1Material);
 video1Screen.position.set(2000, 1500, 2000); // x,y,z of position of cube
 scene.add(video1Screen);
 
-const buttonGeometry = new THREE.PlaneGeometry(0.5, 0.5);
-const buttonMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide });
-const button = new THREE.Mesh(buttonGeometry, buttonMaterial);
+*/
 
-button.position.set(0, 0.5, 0.5);
-video1Screen.add(button);
-renderer.domElement.addEventListener('click', onClick);
-
-function onClick(event) {
-  const mouse = new THREE.Vector2();
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-  const raycaster = new THREE.Raycaster();
-  raycaster.setFromCamera(mouse, camera);
-
-  const intersects = raycaster.intersectObjects(cube.children);
-
-  if (intersects.length > 0) {
-    console.log('Button clicked!');
-  }
-}
-
-// Project 2 StreamSpot
+// Projec 2 StreamSpot
 
 const video2Content = document.getElementById("video2"); //link video HTML to js
 
@@ -226,19 +210,20 @@ let video2Texture = new THREE.VideoTexture(video2Content); // Create Texture
 // Post Process Texture
 video2Texture.minFilter = THREE.LinearFilter;
 video2Texture.magFilter = THREE.LinearFilter;
-
+/*
 const video2Material = new THREE.MeshBasicMaterial({
   map: video2Texture, // sets material.map(project1Texture)
   side: THREE.FrontSide, // displays video on front side
   toneMapped: false, 
 });
-
+*/
 /* Create Video Cube Object 2 */
+/*
 const video2Geometry = new THREE.BoxGeometry(1000, 1000, 1000);//HxWxL
 const video2Screen = new THREE.Mesh(video2Geometry, video2Material);
 video2Screen.position.set(-2000, -1500, -2000); // x,y,z of position of cube
 scene.add(video2Screen);
-
+*/
 // Project 3 Datawave
 
 const video3Content = document.getElementById("video3"); //link video HTML to js
@@ -248,17 +233,17 @@ let video3Texture = new THREE.VideoTexture(video3Content); // Create Texture
 video3Texture.minFilter = THREE.LinearFilter;
 video3Texture.magFilter = THREE.LinearFilter;
 
-const video3Material = new THREE.MeshBasicMaterial({
-  map: video3Texture, // sets material.map(project1Texture)
-  side: THREE.FrontSide, // displays video on front side
-  toneMapped: false, 
-});
+//const video3Material = new THREE.MeshBasicMaterial({
+  //map: video3Texture, // sets material.map(project1Texture)
+  //side: THREE.FrontSide, // displays video on front side
+  //toneMapped: false, 
+//});
 
 /* Create Video Cube Object 2 */
-const video3Geometry = new THREE.BoxGeometry(1000, 1000, 1000);//HxWxL
-const video3Screen = new THREE.Mesh(video3Geometry, video3Material);
-video3Screen.position.set(-2000, -1500, -2000); // x,y,z of position of cube
-scene.add(video3Screen);
+//const video3Geometry = new THREE.BoxGeometry(1000, 1000, 1000);//HxWxL
+//const video3Screen = new THREE.Mesh(video3Geometry, video3Material);
+//video3Screen.position.set(-2000, -1500, -2000); // x,y,z of position of cube
+//scene.add(video3Screen);
 
 // Project 4
 
@@ -268,22 +253,22 @@ let video4Texture = new THREE.VideoTexture(video4Content); // Create Texture
 // Post Process Texture
 video4Texture.minFilter = THREE.LinearFilter;
 video4Texture.magFilter = THREE.LinearFilter;
-
+/*
 const video4Material = new THREE.MeshBasicMaterial({
   map: video4Texture, // sets material.map(project1Texture)
   side: THREE.FrontSide, // displays video on front side
   toneMapped: false, 
 });
-
+*/
 /* Create Video Cube Object */ 
-
+/*
 const video4Geometry = new THREE.BoxGeometry(1000, 1000, 1000);//HxWxL
 
 const video4Screen = new THREE.Mesh(video4Geometry, video4Material);
 
 video4Screen.position.set(-2200, 5000, 4000); // x,y,z of position of cube
 scene.add(video4Screen);
-
+*/
 // Project 5 Gericht
 
 const video5Content = document.getElementById("video5"); //link video HTML to js
@@ -293,14 +278,14 @@ let video5Texture = new THREE.VideoTexture(video5Content); // Create Texture
 video5Texture.minFilter = THREE.LinearFilter;
 video5Texture.magFilter = THREE.LinearFilter;
 
-
+/*
 const video5Material = new THREE.MeshBasicMaterial({
   map: video5Texture, // sets material.map(project5Texture)
   side: THREE.FrontSide, // displays video on front side
   toneMapped: false, 
 });
 
-/* Create Video Cube Object */ 
+// Create Video Cube Object  
 
 const video5Geometry = new THREE.BoxGeometry(600, 600, 600);//HxWxL
 
@@ -309,61 +294,9 @@ const video5Screen = new THREE.Mesh(video5Geometry, video5Material);
 video5Screen.position.set(-3000, 5000, 8000); // x,y,z of position of cube
 scene.add(video5Screen);
 
-function animateCamera() {
-  const tweenTime = 20000; // in milliseconds
-  const cameraTarget = new THREE.Vector3();
-  const cameraStartTarget = cameraTarget.clone();
-  
-  // array of cube positions
-  const cubePositions = [    video1Screen.position.clone(),    video2Screen.position.clone(),    video3Screen.position.clone(),    video4Screen.position.clone(),    video5Screen.position.clone()  ];
-
-  // animate camera to first cube
-  const cameraStartPosition = camera.position.clone();
-  const cameraEndTarget = cameraTarget.copy(cubePositions[0]);
-  const tweenCameraPosition = new TWEEN.Tween(cameraStartPosition)
-    .to(cameraEndTarget, tweenTime)
-    .onUpdate(() => {
-      camera.position.copy(cameraStartPosition);
-    });
-
-  const tweenCameraTarget = new TWEEN.Tween(cameraStartTarget)
-    .to(cameraEndTarget, tweenTime)
-    .onUpdate(() => {
-      camera.lookAt(cameraStartTarget);
-    });
-
-  tweenCameraPosition.chain(tweenCameraTarget);
-
-  // animate camera to remaining cubes
-  for (let i = 1; i < cubePositions.length; i++) {
-    const cameraStartPos = camera.position.clone();
-    const cameraEndTarget = cameraTarget.copy(cubePositions[i]);
-
-    const tweenCameraPosition = new TWEEN.Tween(cameraStartPos)
-      .to(cameraEndTarget, tweenTime)
-      .onUpdate(() => {
-        camera.position.copy(cameraStartPos);
-      });
-
-    const tweenCameraTarget = new TWEEN.Tween(cameraStartTarget)
-      .to(cameraEndTarget, tweenTime)
-      .onUpdate(() => {
-        camera.lookAt(cameraStartTarget);
-      });
-
-    tweenCameraPosition.chain(tweenCameraTarget);
-  }
-
-  // start the first tween
-  tweenCameraPosition.start();
-}
-
-animateCamera();
-animateCamera();
-animateCamera();
-animateCamera();
-
+*/
 /* Creating the GrannyKnot  */
+/*
 class GrannyKnot extends THREE.Object3D {
   constructor() {
     super();
@@ -390,22 +323,125 @@ class GrannyKnot extends THREE.Object3D {
 const grannyKnot = new GrannyKnot();
 scene.add(grannyKnot);
 
+*/
 
 
 
+
+orbit.enabled = false; // disable the orbit controls by default
+let timeoutId = null; // to keep track of the timeout id
+// function to enable the orbit controls
+function enableOrbitControls() {
+  orbit.enabled = true;
+  clearTimeout(timeoutId);
+}
+
+// add event listener to the button to enable orbit controls when clicked
+const exploreButton = document.getElementById('exploreButton');
+exploreButton.addEventListener('click', enableOrbitControls);
+const textures = [video1Texture, video2Texture, video3Texture, video4Texture, video5Texture];
+
+function createCube(scene, position, map) {
+  const geometry = new THREE.BoxGeometry(1, 1, 1);
+  const material = new THREE.MeshBasicMaterial({ map: textures[currentTextureIndex] });
+  const cube = new THREE.Mesh(geometry, material);
+  cube.position.copy(position);
+  scene.add(cube);
+
+  currentTextureIndex = (currentTextureIndex + 1) % textures.length; // Increment the index and wrap around when it reaches the end of the array
+}
+
+
+// Initialize the current texture index to 0
+let currentTextureIndex = 0;
+
+
+for (let i = 0; i < 5; i++) {
+  createCube(scene, new THREE.Vector3(i * 2 - 4, 0, 0), textures[i]);
+}
+
+let position = 0;
+function switchCameraPosition() {
+  if (orbit.enabled) {
+    return;
+  }
+  console.log(camera.position);
+  switch (position) {
+    case 0:
+      moveCamera(0, 2, 10);
+      rotateCamera(0, 0.1, 0);
+      position = 1
+      break;
+    case 1:
+      moveCamera(-4.031, -0.161, 1.891);
+      rotateCamera(0, 0.1, 0);
+      position = 2
+      break;
+    case 2:
+      moveCamera(-1.63, -0.1485, 2.829);
+      rotateCamera(0, 0.1, 0);
+      position = 3;
+      break; 
+    case 3:
+      moveCamera(0.04, -0.146, 1.948);
+      rotateCamera(0, 0.1, 0);
+      position = 4;
+      break; 
+    case 4:
+      moveCamera(2.307, -0.245, 2.629);
+      rotateCamera(0, 0.1, 0);
+      position = 5;
+      break;
+    case 5:
+      moveCamera(4.031, -0.161, 1.891);
+      rotateCamera(0, 0.1, 0);
+      position = 0;
+      break; 
+    default:
+      position = 0;
+      rotateCamera(0, 0, 0);
+      break;
+  }
+  
+  // set a timer to call this function again after 5 seconds
+  timeoutId = setTimeout(switchCameraPosition, 5000);
+}
+
+// start the first camera switch after 5 seconds
+timeoutId = setTimeout(switchCameraPosition, 5000);
+
+
+const moveCamera = (x, y, z) => {
+  gsap.to(camera.position, {
+    x,
+    y,
+    z,
+    duration: 3
+  });
+}
+
+const rotateCamera = (x, y, z) => {
+  gsap.to(camera.rotation, {
+    x,
+    y,
+    z,
+    duration: 3.2
+  });
+}
+
+const clock = new THREE.Clock();
 
 /* Animate the scene */
 const animate = () => {
   requestAnimationFrame(animate);
-
+  
   // Update the videos texture as a series of images
   video1Texture.needsUpdate = true;
   video2Texture.needsUpdate = true;
   video3Texture.needsUpdate = true;
   video4Texture.needsUpdate = true;
   video5Texture.needsUpdate = true;
-  // Call TWEEN.update() to progress the animation
-  TWEEN.update();
+
   // Self rotation
   sun.rotateY(0.004);
   mercury.mesh.rotateY(0.004);
@@ -442,7 +478,7 @@ window.addEventListener('resize', function() {
   camera.aspect = width / height;
   camera.updateProjectionMatrix();
 });
-
+/*
 document.onkeydown = function (e) {
   if (e.keyCode === 80) {
     // p key = play video
@@ -481,3 +517,4 @@ document.onkeydown = function (e) {
     video5Content.currentTime = 0;
   }
 };
+*/
