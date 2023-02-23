@@ -2,24 +2,27 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+import * as kanit from './assets/fonts/kanit.json'
+import DownloadIcon from '@mui/icons-material/Download';
+import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls';
 import video1 from './assets/videos/video1.mp4';
 import video2 from './assets/videos/video2.mp4';
 import video3 from './assets/videos/video3.mp4';
 import video4 from './assets/videos/video4.mp4';
 import video5 from './assets/videos/video4.mp4';
-import starsTexture from './assets/stars.jpg';
-import sunTexture from './assets/sun.jpg';
-import mercuryTexture from './assets/mercury.jpg';
-import venusTexture from './assets/venus.jpg';
-import earthTexture from './assets/earth.jpg';
-import marsTexture from './assets/mars.jpg';
-import jupiterTexture from './assets/jupiter.jpg';
-import saturnTexture from './assets/saturn.jpg';
-import saturnRingTexture from './assets/saturnRing.png';
-import uranusTexture from './assets/uranus.jpg';
-import uranusRingTexture from './assets/uranusRing.png';
-import neptuneTexture from './assets/neptune.jpg';
-import plutoTexture from './assets/pluto.jpg';
+import starsTexture from './assets/images/stars.jpg';
+import sunTexture from './assets/images/sun.jpg';
+import mercuryTexture from './assets/images/mercury.jpg';
+import venusTexture from './assets/images/venus.jpg';
+import earthTexture from './assets/images/earth.jpg';
+import marsTexture from './assets/images/mars.jpg';
+import jupiterTexture from './assets/images/jupiter.jpg';
+import saturnTexture from './assets/images/saturn.jpg';
+import saturnRingTexture from './assets/images/saturnRing.png';
+//import uranusTexture from './assets/images/uranus.jpg';
+//import uranusRingTexture from './assets/images/uranusRing.png';
+//import neptuneTexture from './assets/images/neptune.jpg';
+//import plutoTexture from './assets/images/pluto.jpg';
 import gsap from 'gsap';
 
 
@@ -40,6 +43,10 @@ const camera = new THREE.PerspectiveCamera(
 
 const orbit = new OrbitControls(camera, renderer.domElement);
 
+//const controls = new FirstPersonControls(camera, renderer.domElement);
+//controls.movementSpeed = 4;
+//controls.lookSpeed = 0.04;
+
 //  Sets the Background
 const cubeTextureLoader = new THREE.CubeTextureLoader();
 scene.background = cubeTextureLoader.load([
@@ -59,34 +66,46 @@ scene.add(ambientLight);
 const pointLight = new THREE.PointLight(0xFFFFFF, 2, 10000);
 scene.add(pointLight);
 
-const loader = new FontLoader();
+// Text
 
-loader.load('https://cdn.jsdelivr.net/npm/three/examples/fonts/helvetiker_regular.typeface.json', function (font) {
+let text = "Welcome to my Spacefolio" //String to render
+let textMesh; // text object
 
-  const geometry = new TextGeometry('Hello three.js!', {
+const loader = new FontLoader();  // create Fontloader instance
+
+loader.load('./assets/fonts/kanit.json', function(font) { //text geometry sting and property values
+  const textGeometry = new TextGeometry(text, {
     font: font,
-    size: 80,
+    size: 40,
     height: 5,
     curveSegments: 12,
     bevelEnabled: true,
-    bevelThickness: 10,
-    bevelSize: 8,
-    bevelOffset: 0,
-    bevelSegments: 5
+    bevelThickness: 5,
+    bevelSize: 2,
+    bevelOffset: 2,
+    bevelSegments: 15
   });
-});
+
+  textMesh = new THREE.Mesh(textGeometry, [
+    new THREE.MeshPhongMaterial({ color: 0xffffff })
+  ]);
+
+  scene.add(textMesh);
+  textMesh.position.set(0, 0, 0);
+})
+
 
 /* Planet sizes */
-const earthSize = 6
+const earthSize = 32
 const sunSize = 8 * 80
 const mercurySize = earthSize * 0.38
 const venusSize = earthSize * 0.95
 const marsSize = earthSize * 0.53
 const jupiterSize = earthSize * 11.20
 const saturnSize = earthSize * 9.45
-const uranusSize = earthSize * 4.00
-const neptuneSize = earthSize * 3.88
-const plutoSize = earthSize * 0.095
+//const uranusSize = earthSize * 4.00
+//const neptuneSize = earthSize * 3.88
+//const plutoSize = earthSize * 0.095
 
 /* Planet distance from sun in km */
 const scale = 100000
@@ -97,14 +116,14 @@ const earthDistance = 149600000 / scale
 const marsDistance = 227900000 / scale
 const jupiterDistance = 778300000 / scale
 const saturnDistance = 1427000000 / scale
-const uranusDistance = 2871000000 / scale
-const neptuneDistance = 4497100000 / scale
-const plutoDistance = 3674500000 / scale
+//const uranusDistance = 2871000000 / scale
+//const neptuneDistance = 4497100000 / scale
+//const plutoDistance = 3674500000 / scale
 
 
 const textureLoader = new THREE.TextureLoader();
 /* Create Sun */
-const sunGeo = new THREE.SphereGeometry(sunSize, 30, 30);
+const sunGeo = new THREE.SphereGeometry(sunSize, 12, 12);
 const sunMat = new THREE.MeshBasicMaterial({
   map: textureLoader.load(sunTexture)
 });
@@ -114,7 +133,7 @@ scene.add(sun);
 /* Create Planets */
 
 const createPlanet = (size, texture, position, ring) => {
-  const geo = new THREE.SphereGeometry(size, 30, 30);
+  const geo = new THREE.SphereGeometry(size, 12, 12);
   const mat = new THREE.MeshStandardMaterial({
     map: textureLoader.load(texture)
   });
@@ -144,23 +163,23 @@ const createPlanet = (size, texture, position, ring) => {
 
 // Mercury
 const mercury = createPlanet(mercurySize, mercuryTexture, mercuryDistance);
-mercury.obj.rotateY(0.47);
+//mercury.obj.rotateY(0.47);
 
 // Venus
 const venus = createPlanet(venusSize, venusTexture, venusDistance);
-venus.obj.rotateY(0.87);
+//venus.obj.rotateY(0.87);
 
 // Earth
 const earth = createPlanet(earthSize, earthTexture, earthDistance);
-earth.obj.rotateY(1.29);
+//earth.obj.rotateY(1.29);
 
 // Mars
 const mars = createPlanet(marsSize, marsTexture, marsDistance);
-mars.obj.rotateY(1.98);
+//mars.obj.rotateY(1.98);
 
 // Jupiter
 const jupiter = createPlanet(jupiterSize, jupiterTexture, jupiterDistance);
-jupiter.obj.rotateY(2.84);
+//jupiter.obj.rotateY(2.84);
 
 // Saturn
 const saturn = createPlanet(saturnSize, saturnTexture, saturnDistance, {
@@ -168,23 +187,25 @@ const saturn = createPlanet(saturnSize, saturnTexture, saturnDistance, {
   outerRadius: 20,
   texture: saturnRingTexture
 });
-saturn.obj.rotateY(1.84);
+//saturn.obj.rotateY(1.84);
 
 // Uranus 
+/*
 const uranus = createPlanet(uranusSize, uranusTexture, uranusDistance, {
   innerRadius: 7,
   outerRadius: 12,
   texture: uranusRingTexture
 });
-uranus.obj.rotateY(2.44);
+//uranus.obj.rotateY(2.44);
+*/
 
 // Neptune
-const neptune = createPlanet(neptuneSize, neptuneTexture, neptuneDistance);
-neptune.obj.rotateY(0.77);
+//const neptune = createPlanet(neptuneSize, neptuneTexture, neptuneDistance);
+//neptune.obj.rotateY(0.77);
 
 // Pluto
-const pluto = createPlanet(plutoSize, plutoTexture, plutoDistance);
-pluto.obj.rotateY(1.12);
+//const pluto = createPlanet(plutoSize, plutoTexture, plutoDistance);
+//pluto.obj.rotateY(1.12);
 
 
 // Project 1 Imagine-AI
@@ -234,7 +255,7 @@ video5Texture.minFilter = THREE.LinearFilter;
 video5Texture.magFilter = THREE.LinearFilter;
 
 /* Creating the GrannyKnot  */
-
+/*
 class GrannyKnot extends THREE.Object3D {
   constructor() {
     super();
@@ -257,9 +278,10 @@ class GrannyKnot extends THREE.Object3D {
   }
 }
 
+
 const grannyKnot = new GrannyKnot();
 scene.add(grannyKnot);
-
+*/
 // Editing orbit controls 
 
 orbit.enabled = false; // disable the orbit controls by default
@@ -277,7 +299,7 @@ exploreButton.addEventListener('click', enableOrbitControls);
 const textures = [video1Texture, video2Texture, video3Texture, video4Texture, video5Texture];
 
 function createCube(scene, position, map) {
-  const geometry = new THREE.BoxGeometry(1, 1, 1);
+  const geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
   const material = new THREE.MeshBasicMaterial({ map: textures[currentTextureIndex] });
   const cube = new THREE.Mesh(geometry, material);
   cube.position.copy(position);
@@ -293,11 +315,9 @@ for (let i = 0; i < 5; i++) {
   createCube(scene, new THREE.Vector3(i * 2 - 4, 0, 0), textures[i]);
 }
 
+
 let position = 0;
 function switchCameraPosition() {
-  if (orbit.enabled) {
-    return;
-  }
   console.log(camera.position);
   switch (position) {
     case 0:
@@ -345,12 +365,13 @@ timeoutId = setTimeout(switchCameraPosition, 5000);
 
 orbit.update();
 
+
 const moveCamera = (x, y, z) => {
   gsap.to(camera.position, {
     x,
     y,
     z,
-    duration: 3
+    duration: 5
   });
 }
 
@@ -368,7 +389,7 @@ const clock = new THREE.Clock();
 /* Animate the scene */
 const animate = () => {
   requestAnimationFrame(animate);
-
+  //controls.update(clock.getDelta());
   // Update the videos texture as a series of images
   video1Texture.needsUpdate = true;
   video2Texture.needsUpdate = true;
@@ -377,31 +398,36 @@ const animate = () => {
   video5Texture.needsUpdate = true;
 
   // Self rotation
+  sun.rotateY(0.0005/4);
+  mercury.mesh.rotateY(0.0005/4);
+  venus.mesh.rotateY(0.00025/4);
+  earth.mesh.rotateY(0.0025/4);
+  mars.mesh.rotateY(0.00225/4);
+  jupiter.mesh.rotateY(0.005/4);
+  saturn.mesh.rotateY(0.00475/4);
+  
+  mercury.obj.rotateY(0.005/4);
+  venus.obj.rotateY(0.001875/4);
+  earth.obj.rotateY(0.00125/4);
+  mars.obj.rotateY(0.001/4);
+  jupiter.obj.rotateY(0.00025/4);
+  saturn.obj.rotateY(0.0001125/4);
 
-  //sun.rotateY(0.004);
-  //mercury.mesh.rotateY(0.004);
-  //venus.mesh.rotateY(0.002);
-  //earth.mesh.rotateY(0.02);
-  //mars.mesh.rotateY(0.018);
-  //jupiter.mesh.rotateY(0.04);
-  //saturn.mesh.rotateY(0.038);
-  //uranus.mesh.rotateY(0.03);
-  //neptune.mesh.rotateY(0.032);
-  //pluto.mesh.rotateY(0.008);
-  //grannyKnot.mesh.rotateY(0.01);
-  //grannyKnot.mesh.rotateX(0.01)
-  // Around sun rotation
+  sun.frustumCulled = true;
+  mercury.mesh.frustumCulled = true;
+  venus.mesh.frustumCulled = true;
+  earth.mesh.frustumCulled = true;
+  mars.mesh.frustumCulled = true;
+  jupiter.mesh.frustumCulled = true;
+  saturn.mesh.frustumCulled = true;
 
-  //mercury.obj.rotateY(0.04);
-  //venus.obj.rotateY(0.015);
-  //earth.obj.rotateY(0.01);
-  //mars.obj.rotateY(0.008);
-  //jupiter.obj.rotateY(0.002);
-  //saturn.obj.rotateY(0.0009);
-  //uranus.obj.rotateY(0.0004);
-  //neptune.obj.rotateY(0.0001);
-  //pluto.obj.rotateY(0.00007);
-  //orbit.update();
+  mercury.obj.frustumCulled = true;
+  venus.obj.frustumCulled = true;
+  earth.obj.frustumCulled = true;
+  mars.obj.frustumCulled = true;
+  jupiter.obj.frustumCulled = true;
+  saturn.obj.frustumCulled = true;
+//orbit.update();
   renderer.render(scene, camera);
 }
 
