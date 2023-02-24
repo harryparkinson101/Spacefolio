@@ -5,21 +5,21 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite App</title>
-    <link rel="stylesheet" href="/src/style.css">
+    <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
     <header>
       <nav>
         <div class="container">
-          <h1>HARRY PARKINSON</h1>
+          <h1 class="name">HARRY PARKINSON</h1>
           <div class="menu">
             <a href="#" class="is-active">Home</a>
             <a href="#">Projects</a>
-            <a href="#">Github</a>
-            <a href="#">Contact</a>
-            <a href="#">CV</a>
+            <a href="https://github.com/harryparkinson101">Github</a>
+            <a href="./contact.html">Contact</a>
+            <a href="./src/assets/cv.docx" download>CV</a>
+            </div>
           </div>
-
           <button class="hamburger">
             <span></span>
             <span></span>
@@ -28,6 +28,12 @@
         </div>
       </nav>
     </header>
+    <nav class="mobile-nav">
+      <a href="#" class="is-active">Home</a>
+      <a href="https://github.com/harryparkinson101">Github</a>
+      <a href="./contact.html">Contact</a>
+      <a href="./src/assets/cv.docx" download>CV</a>
+    </nav>
     <div id="app">
       <video
         id="video"
@@ -40,9 +46,7 @@
         height="720"
         src="./src/assets/videos/video1.mp4"
         style="display: none"
-      >
-      </video>
-      
+      ></video>
 
       <video
         id="video2"
@@ -95,9 +99,11 @@
         src="./src/assets/videos/video5.mp4"
         style="display: none"
       ></video>
-      <h1> Welcome To My Spacefolio</h1>
-      <p>Press -p to play<p>
-      <script type="module" src="/src/main.js"></script>
-      </div>
+      <h1 class="welcome">Welcome To My Spacefolio</h1>
+      <p>Press -p to play</p>
+      <p>
+        <script type="module" src="/src/main.js"></script>
+      </p>
+    </div>
   </body>
 </html>

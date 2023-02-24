@@ -3,25 +3,34 @@ body {
 }
 
 p {
-  text-align: center; /* center the text horizontally */
   position: absolute;
-  top: 50%; /* position the text vertically in the middle */
-  transform: translate(
-    0,
-    -50%
-  ); /* move the text up by half of its own height */
-  color: #ffffff;
-  font-size: 38px;
-  left: 440px;
-  top: 90px;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: gray;
+  font-size: 16px;
 }
 
-p {
-  top: 140px;
-  font-size: 16px;
-  left: 630px;
-  color:rgb(144, 172, 161)
+
+
+.name {
+  color: #fff;
+  font-size: 24px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
+@media (max-width: 768px) {
+  p {
+    font-size: 16px;
+  }
+  .welcome {
+    font-size: 22px;
+  }
+}
+
+
+
 /* Styles for the entire page */
 body {
   margin: 0;
@@ -30,7 +39,7 @@ body {
 
 :root {
   --primary: #ff2e2e;
-  --light: #EEEEEE;
+  --light: #eeeeee;
   --dark: #212121;
 }
 
@@ -38,7 +47,7 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Fira sans', sans-serif;
+  font-family: "Fira sans", sans-serif;
 }
 
 .container {
@@ -70,7 +79,7 @@ h1 {
 
 .hamburger {
   display: block;
-  position: relative;
+  position: absolute;
   z-index: 1;
   user-select: none;
 
@@ -79,6 +88,8 @@ h1 {
   outline: none;
   background: none;
   cursor: pointer;
+  top: 16px;
+  right: 32px;
 }
 
 .hamburger span {
@@ -97,7 +108,6 @@ h1 {
 .hamburger.is-active span:nth-child(1) {
   transform: translate(0px, -2px) rotate(45deg);
 }
-
 
 .hamburger:hover span:nth-child(2) {
   transform: translateX(10px);
@@ -134,15 +144,61 @@ h1 {
   border-radius: 99px;
 }
 
-.menu a.is-active, .menu a:hover {
+.menu a.is-active,
+.menu a:hover {
   background-color: var(--primary);
 }
 
-@media (min-width: 760px) {
+.mobile-nav {
+  position: fixed;
+  top: 0;
+  left: 100%;
+  width: 20%;
+  min-height: 40vh;
+  display: block;
+  z-index: 98;
+  background-color: var(--dark);
+  padding-top: 120px;
+  transition: 0.4s;
+}
+
+.mobile-nav.is-active {
+  left: 0;
+}
+
+.mobile-nav a {
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  margin: 0 auto 16px;
+  text-align: center;
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  background-color: var(--dark);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 15px;
+}
+.mobile-nav a:hover {
+  background-color: gray;
+}
+
+@media (min-width: 767px) {
   .hamburger {
     display: none;
   }
   .menu {
     display: flex;
   }
+  .mobile-nav {
+    display: none;
+  }
+}
+.projects {
+  border-radius: 99px;
+  transition: 0.4s;
+}
+
+.projects:hover {
+  background-color: var(--primary);
 }

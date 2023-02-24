@@ -28,10 +28,13 @@ import { RGBAIntegerFormat } from 'three';
 
 // navbar
 const hamburger = document.querySelector('.hamburger');
+const mobileMenu = document.querySelector('.mobile-nav');
 
 hamburger.addEventListener('click', function() {
-  this.classList.toggle('is-active');
+  hamburger.classList.toggle('is-active');
+  mobileMenu.classList.toggle('is-active');
 });
+
 
 
 /* Create the scene and camera */
@@ -105,7 +108,7 @@ loader.load('./assets/fonts/kanit.json', function(font) { //text geometry sting 
 
 /* Planet sizes */
 const earthSize = 32
-const sunSize = 8 * 80
+const sunSize = 30
 const mercurySize = earthSize * 0.38
 const venusSize = earthSize * 0.95
 const marsSize = earthSize * 0.53
