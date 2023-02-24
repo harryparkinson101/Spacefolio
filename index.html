@@ -8,23 +8,26 @@
     <link rel="stylesheet" href="/src/style.css">
   </head>
   <body>
-    <div>
+    <header>
       <nav>
-        <ul>
-          <li class="dropdown">
-            <a href="#" class="dropbtn">Projects</a>
-            <div class="dropdown-content">
-              <a href="#">Project 1</a>
-              <a href="#">Project 2</a>
-              <a href="#">Project 3</a>
-            </div>
-          </li>
-          <li><a href="https://www.linkedin.com/">LinkedIn</a></li>
-          <li><a href="https://github.com/">GitHub</a></li>
-          
-        </ul>
+        <div class="container">
+          <h1>HARRY PARKINSON</h1>
+          <div class="menu">
+            <a href="#" class="is-active">Home</a>
+            <a href="#">Projects</a>
+            <a href="#">Github</a>
+            <a href="#">Contact</a>
+            <a href="#">CV</a>
+          </div>
+
+          <button class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
       </nav>
-    </div>
+    </header>
     <div id="app">
       <video
         id="video"
@@ -92,8 +95,8 @@
         src="./src/assets/videos/video5.mp4"
         style="display: none"
       ></video>
-      <button id="exploreButton">Explore</button>
       <h1> Welcome To My Spacefolio</h1>
+      <p>Press -p to play<p>
       <script type="module" src="/src/main.js"></script>
       </div>
   </body>

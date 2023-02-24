@@ -24,6 +24,14 @@ import saturnRingTexture from './assets/images/saturnRing.png';
 //import neptuneTexture from './assets/images/neptune.jpg';
 //import plutoTexture from './assets/images/pluto.jpg';
 import gsap from 'gsap';
+import { RGBAIntegerFormat } from 'three';
+
+// navbar
+const hamburger = document.querySelector('.hamburger');
+
+hamburger.addEventListener('click', function() {
+  this.classList.toggle('is-active');
+});
 
 
 /* Create the scene and camera */
@@ -110,12 +118,12 @@ const saturnSize = earthSize * 9.45
 /* Planet distance from sun in km */
 const scale = 100000
 const sunDistance = 0
-const mercuryDistance = 88000000 / scale
-const venusDistance = 108200000 / scale
-const earthDistance = 149600000 / scale
-const marsDistance = 227900000 / scale
-const jupiterDistance = 778300000 / scale
-const saturnDistance = 1427000000 / scale
+const mercuryDistance = 66000000 / scale
+const venusDistance = 908200000 / scale
+const earthDistance = 119600000 / scale
+const marsDistance = 187900000 / scale
+const jupiterDistance = 558300000 / scale
+const saturnDistance = 1027000000 / scale
 //const uranusDistance = 2871000000 / scale
 //const neptuneDistance = 4497100000 / scale
 //const plutoDistance = 3674500000 / scale
@@ -284,17 +292,8 @@ scene.add(grannyKnot);
 */
 // Editing orbit controls 
 
-orbit.enabled = false; // disable the orbit controls by default
-let timeoutId = null; // to keep track of the timeout id
-// function to enable the orbit controls
-function enableOrbitControls() {
-  orbit.enabled = true;
-  clearTimeout(timeoutId);
-}
 
-// add event listener to the button to enable orbit controls when clicked
-const exploreButton = document.getElementById('exploreButton');
-exploreButton.addEventListener('click', enableOrbitControls);
+
 
 const textures = [video1Texture, video2Texture, video3Texture, video4Texture, video5Texture];
 
@@ -314,54 +313,54 @@ let currentTextureIndex = 0;
 for (let i = 0; i < 5; i++) {
   createCube(scene, new THREE.Vector3(i * 2 - 4, 0, 0), textures[i]);
 }
+let timeoutId = null;
 
 
 let position = 0;
 function switchCameraPosition() {
-  console.log(camera.position);
   switch (position) {
     case 0:
       moveCamera(0, 2, 10);
-      rotateCamera(0, 0.1, 0);
+      //rotateCamera(0, 0.1, 0);
       position = 1
       break;
     case 1:
       moveCamera(-4.031, -0.161, 1.891);
-      rotateCamera(0, 0.1, 0);
+      //rotateCamera(0, 0.1, 0);
       position = 2
       break;
     case 2:
       moveCamera(-1.63, -0.1485, 2.829);
-      rotateCamera(0, 0.1, 0);
+      //rotateCamera(0, 0.1, 0);
       position = 3;
       break;
     case 3:
       moveCamera(0.04, -0.146, 1.948);
-      rotateCamera(0, 0.1, 0);
+      //rotateCamera(0, 0.1, 0);
       position = 4;
       break;
     case 4:
       moveCamera(2.307, -0.245, 2.629);
-      rotateCamera(0, 0.1, 0);
+      //rotateCamera(0, 0.1, 0);
       position = 5;
       break;
     case 5:
       moveCamera(4.031, -0.161, 1.891);
-      rotateCamera(0, 0.1, 0);
+      //rotateCamera(0, 0.1, 0);
       position = 0;
       break;
     default:
       position = 0;
-      rotateCamera(0, 0, 0);
+      //rotateCamera(0, 0, 0);
       break;
   }
 
   //set a timer to call this function again after 5 seconds
-  timeoutId = setTimeout(switchCameraPosition, 5000);
+  timeoutId = setTimeout(switchCameraPosition, 6000);
 }
 
 // start the first camera switch after 5 seconds
-timeoutId = setTimeout(switchCameraPosition, 5000);
+timeoutId = setTimeout(switchCameraPosition, 6000);
 
 orbit.update();
 
@@ -371,10 +370,10 @@ const moveCamera = (x, y, z) => {
     x,
     y,
     z,
-    duration: 5
+    duration: 6
   });
 }
-
+/*
 const rotateCamera = (x, y, z) => {
   gsap.to(camera.rotation, {
     x,
@@ -385,6 +384,7 @@ const rotateCamera = (x, y, z) => {
 }
 
 const clock = new THREE.Clock();
+*/
 
 /* Animate the scene */
 const animate = () => {
