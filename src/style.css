@@ -144,7 +144,7 @@ h1 {
   border-radius: 99px;
 }
 
-.menu a.is-active,
+
 .menu a:hover {
   background-color: var(--primary);
 }
@@ -180,7 +180,7 @@ h1 {
   border-radius: 15px;
 }
 .mobile-nav a:hover {
-  background-color: gray;
+  background-color: var(--primary);
 }
 
 @media (min-width: 767px) {
@@ -201,4 +201,45 @@ h1 {
 
 .projects:hover {
   background-color: var(--primary);
+}
+
+.body-projects {
+  background-color: var(--dark);
+}
+
+.my-projects {
+  max-width: 800px; /* set a maximum width to prevent projects from spanning the entire width of the screen */
+  margin: 0 auto; /* center the projects horizontally */
+  margin-top: 80px; /* adjust this value to your preference */
+  padding: 5px
+}
+
+.my-projects ul {
+  list-style-type: none; /* remove the bullet points from the list */
+  padding: 5px; /* remove the default padding from the list */
+  margin-top: 20px;
+}
+
+
+.my-projects a {
+  color: var(--primary);
+  
+}
+
+.my-projects div ul {
+  display: block;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px;
+}
+
+
+.my-projects li p {
+  margin-top: 50px;
+  margin-left: 40px;
+  flex: 1;
+  position: relative;
+  font-size: 16px;
+  color: var(--light);
 }
