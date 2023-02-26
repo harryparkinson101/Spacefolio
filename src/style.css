@@ -1,5 +1,17 @@
 body {
   margin: 0;
+  background: linear-gradient(45deg, black 50%, red);
+  background-size: 200% 200%;
+  animation: gradient 3s ease forwards;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
 }
 
 p {
@@ -243,3 +255,4 @@ h1 {
   font-size: 16px;
   color: var(--light);
 }
+
