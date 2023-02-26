@@ -2,9 +2,6 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
-import * as kanit from './assets/fonts/kanit.json'
-import DownloadIcon from '@mui/icons-material/Download';
-import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls';
 import video1 from './assets/videos/video1.mp4';
 import video2 from './assets/videos/video2.mp4';
 import video3 from './assets/videos/video3.mp4';
